@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int largestMagicSquare(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        int ans = 1; // every single cell is a magic square
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 2; i + k <= n && j + k <= m; k++) {
+                    int target = 0;
+                    bool ok = true;
+
+                    // first row sum
+                    for (int c = j; c < j + k; c++)
+                        target += grid[i][c];
+
+                    // rows
+                    for (int r = i; r < i + k && ok; r++) {
+                        int sum = 0;
+                        for (int c = j; c < j + k; c++)
+                            sum += grid[r][c];
+                        if (sum != target) ok = false;
+                    }
+
+                    // columns
+                    for (int c = j; c < j + k && ok; c++) {
+                        int sum = 0;
+                        for (int r = i; r < i + k; r++)
+                            sum += grid[r][c];
+                        if (sum != target) ok = false;
+                    }
+
+                    // diagonals
+                    int d1 = 0, d2 = 0;
+                    for (int t = 0; t < k; t++) {
+                        d1 += grid[i + t][j + t];
+                        d2 += grid[i + t][j + k - 1 - t];
+                    }
+
+                    if (ok && d1 == target && d2 == target)
+                        ans = max(ans, k);
+                }
+            }
+        }
+        return ans;
+    }
+};
