@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int minimumPairRemoval(vector<int>& nums) {
+        int n=nums.size();
+        stack<int>st;
+        int i=0;
+        int ans=0;
+        st.push(nums[i]);
+        int curr=0;
+        while(i<n){
+            curr=nums[i];
+            if(st.top()>nums[i] && i<n-1){
+                curr+=nums[i+1];
+                i++;
+            }
+            if(st.top()<curr){
+                st.push(curr);
+                curr=0;
+            }
+            i++;
+        }
+        while(st.size()>0){
+            st.pop();
+            ans++;
+        }
+        return n-ans;
+    }
+};
