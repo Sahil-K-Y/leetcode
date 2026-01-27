@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int minCost(int n, vector<vector<int>>& edges) {
+        // Build graph with both normal and "reversed" edges
+        vector<vector<pair<int,int>>> adj(n);
+        for (auto &e : edges) {
+            int u = e[0], v = e[1], w = e[2];
+            // original direction: cost = w
+            adj[u].push_back({v, w});
+            // reversed direction: cost = 2 * w (using switch at v)
+            adj[v].push_back({u, 2 * w});
+        }
+
+        const long long INF = (long long)4e18;
+        vector<long long> dist(n, INF);
+        dist[0] = 0;
+
+        using P = pair<long long,int>; // {dist, node}
+        priority_queue<P, vector<P>, greater<P>> pq;
+        pq.push({0, 0});
+
+        while (!pq.empty()) {
+            auto [d, u] = pq.top();
+            pq.pop();
+            if (d != dist[u]) continue;
+            if (u == n - 1) break; // optional early stop
+
+            for (auto &edge : adj[u]) {
+                int v = edge.first;
+                long long w = edge.second;
+                if (dist[v] > d + w) {
+                    dist[v] = d + w;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+
+        return dist[n - 1] == INF ? -1 : (int)dist[n - 1];
+    }
+};
