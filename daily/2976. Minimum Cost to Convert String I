@@ -1,0 +1,50 @@
+class Solution {
+public:
+    long long minimumCost(string source, string target,
+                          vector<char>& original,
+                          vector<char>& changed,
+                          vector<int>& cost) {
+        const long long INF = (long long)4e18;
+
+        // 26 x 26 distance matrix
+        vector<vector<long long>> dist(26, vector<long long>(26, INF));
+        for (int i = 0; i < 26; ++i) dist[i][i] = 0;
+
+        int m = original.size();
+        for (int i = 0; i < m; ++i) {
+            int u = original[i] - 'a';
+            int v = changed[i] - 'a';
+            long long w = (long long)cost[i];
+            // keep minimum edge cost for u -> v
+            if (w < dist[u][v]) dist[u][v] = w;
+        }
+
+        // Floyd–Warshall over 26 nodes
+        for (int k = 0; k < 26; ++k) {
+            for (int i = 0; i < 26; ++i) {
+                if (dist[i][k] == INF) continue;
+                for (int j = 0; j < 26; ++j) {
+                    if (dist[k][j] == INF) continue;
+                    long long through = dist[i][k] + dist[k][j];
+                    if (through < dist[i][j]) {
+                        dist[i][j] = through;
+                    }
+                }
+            }
+        }
+
+        if (source.size() != target.size()) return -1; // safety
+
+        long long ans = 0;
+        int n = (int)source.size();
+        for (int i = 0; i < n; ++i) {
+            if (source[i] == target[i]) continue;
+            int u = source[i] - 'a';
+            int v = target[i] - 'a';
+            if (dist[u][v] == INF) return -1;
+            ans += dist[u][v];
+        }
+
+        return ans;
+    }
+};
