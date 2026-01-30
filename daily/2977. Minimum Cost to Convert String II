@@ -1,0 +1,182 @@
+class Solution {
+public:
+    using ll = long long;
+    static constexpr ll INF = (ll)4e18;
+
+    struct Trie {
+        struct Node {
+            int next[26];
+            int id; // pattern id, -1 if none
+            Node() {
+                fill(next, next + 26, -1);
+                id = -1;
+            }
+        };
+
+        vector<Node> t;
+
+        Trie() { t.emplace_back(); }
+
+        void insert(const string& s, int pid) {
+            int u = 0;
+            for (char ch : s) {
+                int c = ch - 'a';
+                if (t[u].next[c] == -1) {
+                    t[u].next[c] = t.size();
+                    t.emplace_back();
+                }
+                u = t[u].next[c];
+            }
+            if (t[u].id == -1) t[u].id = pid;   // store pattern id
+        }
+
+        // from position pos in string s, traverse and return all pattern IDs we hit
+        void walk(const string& s, int pos, vector<int>& out, vector<int>& endPos) const {
+            int u = 0;
+            for (int i = pos; i < (int)s.size(); ++i) {
+                int c = s[i] - 'a';
+                if (t[u].next[c] == -1) break;
+                u = t[u].next[c];
+                if (t[u].id != -1) {
+                    out.push_back(t[u].id);
+                    endPos.push_back(i);
+                }
+            }
+        }
+    };
+
+    long long minimumCost(string source, string target,
+                          vector<string>& original,
+                          vector<string>& changed,
+                          vector<int>& cost) {
+        int n = source.size();
+        int m = original.size();
+
+        // 1) Map each distinct string (original/changed) to an id.
+        unordered_map<string,int> mp;
+        mp.reserve(2 * m * 2);
+        vector<string> pats;
+        pats.reserve(2 * m);
+
+        auto getId = [&](const string& s) -> int {
+            auto it = mp.find(s);
+            if (it != mp.end()) return it->second;
+            int id = pats.size();
+            pats.push_back(s);
+            mp.emplace(s, id);
+            return id;
+        };
+
+        for (int i = 0; i < m; ++i) {
+            getId(original[i]);
+            getId(changed[i]);
+        }
+
+        int K = pats.size();
+        vector<vector<ll>> dist(K, vector<ll>(K, INF));
+        for (int i = 0; i < K; ++i) dist[i][i] = 0;
+
+        for (int i = 0; i < m; ++i) {
+            int u = getId(original[i]);
+            int v = getId(changed[i]);
+            dist[u][v] = min(dist[u][v], (ll)cost[i]);
+        }
+
+        // 2) Floyd–Warshall on pattern graph (K <= 200).
+        for (int k = 0; k < K; ++k)
+            for (int i = 0; i < K; ++i)
+                if (dist[i][k] < INF)
+                    for (int j = 0; j < K; ++j)
+                        if (dist[k][j] < INF)
+                            dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+
+        // 3) Build Trie for all patterns (to match substrings fast).
+        Trie trie;
+        for (int pid = 0; pid < K; ++pid)
+            trie.insert(pats[pid], pid);
+
+        // 4) Precompute, for each position i, all possible segments [i..j]
+        //    that correspond to some pattern in source and in target.
+        //    We'll store best cost to convert source[i..j] -> target[i..j].
+        vector<vector<ll>> segCost(n, vector<ll>(n, INF));
+
+        // For every start index i, walk source and target through Trie
+        // to find patterns starting at i.
+        vector<int> idsS, endS, idsT, endT;
+        for (int i = 0; i < n; ++i) {
+            idsS.clear(); endS.clear();
+            trie.walk(source, i, idsS, endS);
+
+            idsT.clear(); endT.clear();
+            trie.walk(target, i, idsT, endT);
+
+            // Build a map from length to pattern id for source and target
+            unordered_map<int, int> bestS, bestT; // len -> pattern id
+            bestS.reserve(idsS.size()*2);
+            bestT.reserve(idsT.size()*2);
+
+            for (int k = 0; k < (int)idsS.size(); ++k) {
+                int pid = idsS[k];
+                int j = endS[k];
+                int len = j - i + 1;
+                // keep any one pattern id per length (they are unique strings)
+                bestS.emplace(len, pid);
+            }
+            for (int k = 0; k < (int)idsT.size(); ++k) {
+                int pid = idsT[k];
+                int j = endT[k];
+                int len = j - i + 1;
+                bestT.emplace(len, pid);
+            }
+
+            // case: no change needed, when chars equal
+            // we can always keep same characters with 0 cost (per position)
+            // This is covered by length=1 patterns only if the single-char is in pats,
+            // so handle general equal segment separately via simple extension.
+            // We'll mark length-1 equal chars here; longer equal substrings are handled via DP naturally.
+            // Simpler: treat only substrings that come from rules or equal chars position-wise.
+            if (source[i] == target[i]) {
+                segCost[i][i] = 0;
+            }
+
+            // for each possible length that exists both in source and target
+            for (auto &ps : bestS) {
+                int len = ps.first;
+                int pidS = ps.second;
+                auto it = bestT.find(len);
+                if (it == bestT.end()) continue;
+                int pidT = it->second;
+                ll c = dist[pidS][pidT];
+                if (c < INF) {
+                    int j = i + len - 1;
+                    segCost[i][j] = min(segCost[i][j], c);
+                }
+            }
+        }
+
+        // Additionally, for any substring [i..j] where source[k]==target[k] for all k,
+        // it can be kept with 0 cost even if not in rules.
+        // Precompute this in O(n^2).
+        for (int i = 0; i < n; ++i) {
+            bool ok = true;
+            for (int j = i; j < n; ++j) {
+                if (source[j] != target[j]) ok = false;
+                if (ok) segCost[i][j] = 0;
+                else break; // once mismatch, longer ones also mismatch
+            }
+        }
+
+        // 5) DP over positions: dp[i] = min cost to convert prefix [0..i-1].
+        vector<ll> dp(n + 1, INF);
+        dp[0] = 0;
+        for (int i = 0; i < n; ++i) {
+            if (dp[i] == INF) continue;
+            for (int j = i; j < n; ++j) {
+                if (segCost[i][j] == INF) continue;
+                dp[j + 1] = min(dp[j + 1], dp[i] + segCost[i][j]);
+            }
+        }
+
+        return dp[n] == INF ? -1 : dp[n];
+    }
+};
