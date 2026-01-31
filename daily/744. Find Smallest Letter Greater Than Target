@@ -1,0 +1,18 @@
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& nums, char target) {
+        int i=0;
+        int j=nums.size()-1;
+        char ans=nums[0];
+        while(i<=j){
+            int mid=i+(j-i)/2;
+            if(nums[mid]>target){
+                ans=nums[mid];
+                j=mid-1;
+            }else{
+                i=mid+1;
+            }
+        }
+        return ans;
+    }
+};
