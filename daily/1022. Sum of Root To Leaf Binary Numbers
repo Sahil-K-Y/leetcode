@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int ans=0;
+    void dfs(int num,TreeNode* root){
+        if(!root){
+            return;
+        }
+        num=(num<<1)|root->val;
+        if(!root->left&&!root->right){
+            ans+=num;
+        }
+        dfs(num,root->left);
+        dfs(num,root->right);
+        
+    }
+    int sumRootToLeaf(TreeNode* root) {
+        dfs(0,root);
+        return ans;
+    }
+};
