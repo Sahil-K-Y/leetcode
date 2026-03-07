@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int minFlips(string s) {
+        int n = s.size();
+        string t = s + s;
+
+        int mismatch1 = 0, mismatch2 = 0;
+        int ans = INT_MAX;
+        int left = 0;
+
+        for(int right = 0; right < t.size(); right++) {
+
+            char p1 = (right % 2 == 0) ? '0' : '1';
+            char p2 = (right % 2 == 0) ? '1' : '0';
+
+            if(t[right] != p1) mismatch1++;
+            if(t[right] != p2) mismatch2++;
+
+            if(right - left + 1 > n) {
+
+                char lp1 = (left % 2 == 0) ? '0' : '1';
+                char lp2 = (left % 2 == 0) ? '1' : '0';
+
+                if(t[left] != lp1) mismatch1--;
+                if(t[left] != lp2) mismatch2--;
+
+                left++;
+            }
+
+            if(right - left + 1 == n) {
+                ans = min(ans, min(mismatch1, mismatch2));
+            }
+        }
+
+        return ans;
+    }
+};
