@@ -1,0 +1,21 @@
+class Solution {
+public:
+    void generate(vector<string>&store,string curr,int n){
+        if(curr.size()==n){
+            store.push_back(curr);
+            return;
+        }
+        for(char c:{'a','b','c'}){
+            if(curr.empty()||curr.back()!=c){
+                generate(store,curr+c,n);
+            }
+        }
+    }
+    string getHappyString(int n, int k) {
+        vector<string>res;
+        string curr="";
+        generate(res,curr,n);
+        if(k>res.size())return "";
+        return res[k-1];
+    }
+};
