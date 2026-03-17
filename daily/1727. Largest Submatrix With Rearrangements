@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int largestSubmatrix(vector<vector<int>>& matrix) {
+        int row=matrix.size();
+        int col=matrix[0].size();
+        int ans=0;
+        vector<int>height(col,0);
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(matrix[i][j]==1){
+                    height[j]+=1;
+                }else{
+                    height[j]=0;
+                }
+            }
+            vector<int>temp=height;
+            sort(temp.begin(),temp.end(),greater<int>());
+            for(int j=0;j<col;j++){
+                ans=max(ans,temp[j]*(j+1));
+            }
+        }
+        return ans;
+    }
+};
