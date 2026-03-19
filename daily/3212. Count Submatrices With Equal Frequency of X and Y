@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int numberOfSubmatrices(vector<vector<char>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        
+        vector<vector<int>> preX(n + 1, vector<int>(m + 1, 0));
+        vector<vector<int>> preY(n + 1, vector<int>(m + 1, 0));
+
+        // build prefix sums
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+                preX[i][j] = preX[i-1][j] + preX[i][j-1] - preX[i-1][j-1]
+                             + (grid[i-1][j-1] == 'X');
+
+                preY[i][j] = preY[i-1][j] + preY[i][j-1] - preY[i-1][j-1]
+                             + (grid[i-1][j-1] == 'Y');
+            }
+        }
+
+        int ans = 0;
+
+        // only bottom-right varies
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+
+                int cntX = preX[i][j];
+                int cntY = preY[i][j];
+
+                if(cntX == cntY && cntX > 0) {
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
