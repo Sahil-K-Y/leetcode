@@ -1,0 +1,12 @@
+class Solution {
+public:
+    vector<vector<int>> reverseSubmatrix(vector<vector<int>>& grid, int x, int y, int k) {
+        for(size_t i = y; i<y+k;++i){
+            for(size_t j=x, m=x+k-1; j<m; ++j, --m){
+                swap(grid[j][i], grid[m][i]);
+            }
+        }
+
+        return move(grid);
+    }
+};
