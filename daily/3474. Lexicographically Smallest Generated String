@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string generateString(string str1, string str2) {
+        int n = str1.length();
+        int m = str2.length();
+        int len = n + m - 1;
+        
+        string word(len, '?');
+        vector<bool> fixed(len, false);
+
+        // Phase 1: Fill mandatory characters from 'T'
+        for (int i = 0; i < n; ++i) {
+            if (str1[i] == 'T') {
+                for (int j = 0; j < m; ++j) {
+                    if (word[i + j] != '?' && word[i + j] != str2[j]) {
+                        return ""; // Impossible conflict
+                    }
+                    word[i + j] = str2[j];
+                    fixed[i + j] = true;
+                }
+            }
+        }
+
+        // Phase 2: Greedy fill with 'a'
+        for (int i = 0; i < len; ++i) {
+            if (word[i] == '?') word[i] = 'a';
+        }
+
+        // Phase 3: Fix 'F' violations
+        for (int i = 0; i < n; ++i) {
+            if (str1[i] == 'F') {
+                // Check if we accidentally matched str2
+                bool match = true;
+                for (int j = 0; j < m; ++j) {
+                    if (word[i + j] != str2[j]) {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) {
+                    // Try to break the match by changing the rightmost non-fixed char
+                    bool fixed_all = true;
+                    for (int j = m - 1; j >= 0; --j) {
+                        if (!fixed[i + j]) {
+                            // Try changing to 'b'. If it's already 'b', try 'a' 
+                            // (though it's 'a' by default here). 
+                            // Actually, just change it to 'b' or anything != str2[j]
+                            word[i + j] = (str2[j] == 'a') ? 'b' : 'a';
+                            fixed_all = false;
+                            break;
+                        }
+                    }
+                    if (fixed_all) return ""; // All chars in this 'F' window are locked by 'T's
+                }
+            }
+        }
+
+        // Final Verification: Ensure our fixes didn't break any 'T' or 'F' elsewhere
+        // (The 'T's are safe because we only changed non-fixed positions)
+        for (int i = 0; i < n; ++i) {
+            bool match = true;
+            for (int j = 0; j < m; ++j) {
+                if (word[i + j] != str2[j]) {
+                    match = false;
+                    break;
+                }
+            }
+            if ((str1[i] == 'T' && !match) || (str1[i] == 'F' && match)) {
+                return "";
+            }
+        }
+
+        return word;
+    }
+};
