@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minimumDistance(vector<int>& nums) {
+        int ans = INT_MAX;
+        // Stores: {value, {last_index, second_to_last_index}}
+        unordered_map<int, pair<int, int>> last_seen;
+
+        for (int i = 0; i < nums.size(); ++i) {
+            int val = nums[i];
+            
+            if (last_seen.count(val)) {
+                int second_last = last_seen[val].first;
+                int first_last = last_seen[val].second;
+
+                if (first_last != -1) {
+                    // We found a triplet! 
+                    // Indices are: first_last (a), second_last (b), and current i (c)
+                    // Simplified distance: 2 * (c - a)
+                    ans = min(ans, 2 * (i - first_last));
+                }
+                
+                // Shift indices forward: 
+                // second_last becomes the new "first_last" (oldest of the 3)
+                // current i becomes the new "second_last" (middle of the 3)
+                last_seen[val] = {i, second_last};
+            } else {
+                // First time seeing this number
+                last_seen[val] = {i, -1};
+            }
+        }
+
+        return (ans == INT_MAX) ? -1 : ans;
+    }
+};
