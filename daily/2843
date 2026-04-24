@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int furthestDistanceFromOrigin(string moves) {
+        int left=0;
+        int right=0;
+        for (char i:moves){
+            if(i=='R')left++;
+            if(i=='L')left--;
+            if(i=='_')right++;
+        }
+        return abs(left)+right;
+    }
+};
