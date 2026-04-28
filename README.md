@@ -28,6 +28,11 @@ leetcode/
 │   ├── tree/
 │   └── ...
 └── 📅 daily/          # Monthly daily LeetCode challenges
+    ├── array/
+    ├── graph/
+    ├── math/
+    ├── string/
+    └── tree/
 ```
 
 ---
