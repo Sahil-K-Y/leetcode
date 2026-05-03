@@ -1,3 +1,27 @@
+# LeetCode Progress: SKY_x_SKY
+
+## Statistics (as of May 03, 2026)
+- **Total Solved:** 306
+- **Easy:** 148
+- **Medium:** 130
+- **Hard:** 28
+- **Ranking:** 442,665
+
+## Directory Structure
+- [Easy/](./Easy)
+- [Medium/](./Medium)
+- [Hard/](./Hard)
+
+## Recent Activity
+- Rotate String
+- Find the Highest Altitude
+- Ugly Number
+- Detect Cycles in 2D Grid
+- Find All Numbers Disappeared in an Array
+- Furthest Point From Origin
+
+---
+
 # 🧠 LeetCode Solutions
 
 ![LeetCode](https://img.shields.io/badge/-LeetCode-FFA116?style=for-the-badge&logo=LeetCode&logoColor=black)
@@ -61,7 +85,7 @@ To explore the solutions:
 
 ## 🔗 Quick Links
 
-- [LeetCode Profile](https://leetcode.com/Sahil-K-Y) *(Replace with your actual profile link)*
+- [LeetCode Profile](https://leetcode.com/Sahil-K-Y)
 - [Daily Challenges](./daily)
 - [Hard Problems](./hard)
 
