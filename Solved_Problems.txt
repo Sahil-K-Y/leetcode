@@ -19,3 +19,4 @@ Length of Last Word
 Minimum Distance Between Three Equal Elements II
 Minimum Distance Between Three Equal Elements I
 Excel Sheet Column Title
+Rotate List
