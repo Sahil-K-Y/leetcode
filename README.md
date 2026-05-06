@@ -1,57 +1,48 @@
-# LeetCode Progress: SKY_x_SKY
-
-## Statistics (as of May 03, 2026)
-- **Total Solved:** 306
-- **Easy:** 148
-- **Medium:** 130
-- **Hard:** 28
-- **Ranking:** 442,665
-
-## Directory Structure
-- [Easy/](./Easy)
-- [Medium/](./Medium)
-- [Hard/](./Hard)
-
-## Recent Activity
-- Rotate String
-- Find the Highest Altitude
-- Ugly Number
-- Detect Cycles in 2D Grid
-- Find All Numbers Disappeared in an Array
-- Furthest Point From Origin
-
----
-
 # 🧠 LeetCode Solutions
 
 ![LeetCode](https://img.shields.io/badge/-LeetCode-FFA116?style=for-the-badge&logo=LeetCode&logoColor=black)
-![Language](https://img.shields.io/badge/Language-C++%20%2F%20Python-blue?style=for-the-badge)
+![Language](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge&logo=cplusplus)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
-Welcome to my LeetCode solutions repository! This project contains a collection of well-organized solutions to various algorithmic challenges, categorized by difficulty and core concepts.
+Welcome to my LeetCode solutions repository. This project serves as a comprehensive archive of algorithmic challenges solved, focused on efficiency, clean code, and a deep understanding of data structures and algorithms.
+
+---
+
+## 📊 Progress Dashboard
+
+**As of May 06, 2026**
+
+| Metric | Value |
+| :--- | :--- |
+| **Total Solved** | 306 |
+| 🟢 **Easy** | 148 |
+| 🟡 **Medium** | 130 |
+| 🔴 **Hard** | 28 |
+| **Global Ranking** | 442,665 |
 
 ---
 
 ## 📂 Repository Structure
 
-The repository is organized into a hierarchical structure to make navigation seamless:
+The solutions are organized by both difficulty and conceptual category to facilitate quick navigation and study.
 
 ```text
 leetcode/
-├── 🟢 easy/           # Solutions for Easy difficulty
+├── 🟢 easy/           # Basic algorithmic patterns and foundation
 │   ├── array/
 │   ├── tree/
 │   ├── string/
 │   └── ...
-├── 🟡 medium/         # Solutions for Medium difficulty
+├── 🟡 medium/         # Intermediate challenges (the core of interview prep)
 │   ├── graph/
 │   ├── backtracking/
 │   ├── array/
 │   └── ...
-├── 🔴 hard/           # Solutions for Hard difficulty
+├── 🔴 hard/           # Complex problems requiring advanced optimizations
 │   ├── stack/
 │   ├── tree/
 │   └── ...
-└── 📅 daily/          # Monthly daily LeetCode challenges
+└── 📅 daily/          # Daily LeetCode challenges curated by topic
     ├── array/
     ├── graph/
     ├── math/
@@ -61,39 +52,34 @@ leetcode/
 
 ---
 
-## 🛠️ Topics Covered
+## 🛠️ Topics & Competencies
 
-| Concept | Description |
-| :--- | :--- |
-| **Array** | Searching, sorting, and manipulation in linear data structures. |
-| **Tree** | Traversals (DFS/BFS), BST operations, and recursive patterns. |
-| **Graph** | Cycle detection, shortest path, and topological sorting. |
-| **Linked List** | Pointer manipulation and list restructuring. |
-| **Stack/Queue** | Monotonic stacks, sliding windows, and greedy approaches. |
-| **Math/String** | Number theory and advanced string manipulation. |
-
----
-
-## 🚀 Getting Started
-
-To explore the solutions:
-1. Navigate to the desired difficulty folder (e.g., `medium/`).
-2. Select a topic (e.g., `graph/`).
-3. View the solution file named by its LeetCode problem number and title.
+| Domain | Core Focus | Key Techniques |
+| :--- | :--- | :--- |
+| **Arrays** | Linear Data Structures | Two Pointers, Sliding Window, Prefix Sum |
+| **Trees** | Hierarchical Data | DFS, BFS, Recursion, BST Properties |
+| **Graphs** | Network Topology | Dijkstra, BFS/DFS, Topological Sort, Cycle Detection |
+| **Linked Lists** | Dynamic Memory | Pointer Manipulation, Fast & Slow Pointers |
+| **Dynamic Programming** | Optimization | Memoization, Tabulation, State Transition |
+| **Strings/Math** | Data Processing | Hashing, Number Theory, KMP, Regex |
 
 ---
 
-## 🔗 Quick Links
+## 💻 Coding Standards
+
+To maintain consistency and reduce boilerplate, all solutions follow a standardized format based on the `template.cpp` file provided in the root directory.
+
+- **Language:** C++ (Modern standards)
+- **Time & Space Complexity:** Aiming for optimal Big-O notation.
+- **Structure:** Clear separation between the `Solution` class and local test cases.
+
+---
+
+## 🚀 Quick Links
 
 - [LeetCode Profile](https://leetcode.com/Sahil-K-Y)
 - [Daily Challenges](./daily)
 - [Hard Problems](./hard)
-
----
-
-## 🤝 Contributing
-
-While this is a personal repository, feel free to fork it and add your own solutions or suggest optimizations via pull requests!
 
 ---
 
@@ -103,4 +89,4 @@ While this is a personal repository, feel free to fork it and add your own solut
 - GitHub: [@Sahil-K-Y](https://github.com/Sahil-K-Y)
 
 ---
-*Keep coding and stay sharp! 🚀*
+*Continuous learning is the key to mastery. 🚀*
