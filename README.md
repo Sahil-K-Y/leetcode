@@ -8,20 +8,6 @@ Welcome to my LeetCode solutions repository. This project serves as a comprehens
 
 ---
 
-## 📊 Progress Dashboard
-
-**As of May 06, 2026**
-
-| Metric | Value |
-| :--- | :--- |
-| **Total Solved** | 306 |
-| 🟢 **Easy** | 148 |
-| 🟡 **Medium** | 130 |
-| 🔴 **Hard** | 28 |
-| **Global Ranking** | 442,665 |
-
----
-
 ## 📂 Repository Structure
 
 The solutions are organized by both difficulty and conceptual category to facilitate quick navigation and study.
